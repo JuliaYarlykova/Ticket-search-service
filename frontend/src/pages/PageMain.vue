@@ -16,6 +16,7 @@
 <script>
 import CardField from '@/components/CardField.vue';
 import Sort from '@/components/Sort.vue';
+import axios from 'axios';
 import FilterTransfer from '../components/FilterTransfer.vue';
 
 export default {
@@ -24,6 +25,7 @@ export default {
         Sort,
         CardField
     }
+    
 }
 </script>
 

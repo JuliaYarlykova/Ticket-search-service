@@ -2,16 +2,28 @@
     <div class="sort">
         <div class="sort__container">
             <label class="sort__label">
-                <input type="checkbox" class="sort__input" required />
+                <input type="radio" class="sort__input" value="1" name="radio" @change="store.sortCheap()"/>
                 <span class="sort__mark">самый дешевый</span>
             </label>
             <label class="sort__label">
-                <input type="checkbox" class="sort__input" required />
+                <input type="radio" class="sort__input" value="2" name="radio" @change="store.sortFast()" />
                 <span class="sort__mark sort__mark--r">самый быстрый</span>
             </label>
         </div>
     </div>
 </template>
+
+<script>
+import {useTicketStore} from '@/main.js' 
+
+export default{
+    setup(){
+        return{
+            store: useTicketStore()
+        }
+    }
+}
+</script>
 
 <style lang="less">
 .sort {
@@ -72,6 +84,7 @@
 
             }
         }
+
     }
 }
 </style>

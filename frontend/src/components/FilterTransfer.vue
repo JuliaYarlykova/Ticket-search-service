@@ -6,11 +6,11 @@
             </p>
             <div class="filter__check check" v-for="check in checks">
                 <label class=" check__label">
-                    <input type="checkbox" class="check__input" required  />
+                    <input type="checkbox" class="check__input" required @click="store.sort(check.key, $event.target)"/>
                     <span class="check__mark"></span>
                     <p class="check__text">
-                        {{ check }}
-                    </p>
+                        {{ check.title }}
+                    </p> 
                 </label>
             </div>
         </div>
@@ -19,12 +19,32 @@
 </template>
 
 <script>
+import { useTicketStore } from '@/main';
+
 export default {
     data() {
         return {
-            checks: ['Все', 'Без пересадок', "1 пересадка", "2 пересадки", "3 пересадки"]
+            checks: [
+            {
+                title:'Без пересадок',
+                key:0
+            },{
+                title:"1 пересадка",
+                key:1
+            },{
+                title: "2 пересадки",
+                key:2
+            },{
+                title:"3 пересадки",
+                key:3
+            }]
         }
 
+    },
+    setup(){
+        return{
+            store:useTicketStore()
+        }
     }
 }
 </script>

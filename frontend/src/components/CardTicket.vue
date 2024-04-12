@@ -2,29 +2,75 @@
     <div class="card">
         <div class="card__container">
             <div class="card__info">
-                <p class="card__first-title">1234</p>
-                <p class="card__first-title">dshbsjh</p>
+                <p class="card__first-title">{{price}}</p>
+                <p class="card__first-title">{{aviacompany}}</p>
             </div>
             
             <div class="card__wrap">
                 <div class="card__block">
-                    <p class="card__title">mov-hkt</p>
-                    <p class="card__text">10:20-15:30</p>
+                    <p class="card__title">{{from}}-{{to}}</p>
+                    <p class="card__text">{{timefrom}}-{{timeto}}</p>
                 </div>
                 <div class="card__block">
                     <p class="card__title">
                         в пути
                     </p>
-                    <p class="card__text">15ч 21м</p>
+                    <p class="card__text">{{timeway[0]}}ч {{ timeway[1] }}м</p>
                 </div>
                 <div class="card__block">
-                    <p class="card__title"></p>
-                    <p class="card__text">hkg</p>
+                    <p class="card__title">Пересадки: {{ text }}</p>
+                    <p class="card__text">{{stops}}</p>
                 </div>
             </div>
         </div>
     </div>
 </template>
+
+<script>
+
+export default{
+    props:{
+        price:{
+            type: String,
+            default: '-'
+        },
+        aviacompany:{
+            type: String,
+            required: true
+        },
+        from:{
+            type: String,
+            required: true
+        },
+        to:{
+            type: String,
+            required: true
+        },
+        timefrom:{
+            type: String,
+            required: true
+        },
+        timeto:{
+            type: String,
+            required: true
+        },
+        timeway:{
+            type: String,
+            default: '-'
+        },
+        text:{
+            type: String,
+            required: true
+        },
+        stops:{
+            type: String,
+            default: '-'
+        },
+
+    }
+}
+
+</script>
 
 <style lang="less">
 .card{

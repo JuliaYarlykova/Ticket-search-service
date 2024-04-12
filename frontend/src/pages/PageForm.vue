@@ -1,16 +1,16 @@
 <template>
     <div class="pp-auth">
       <div class="pp-auth__container">
-        <button class="pp-auth__btn-close" @click="">
+        <button class="pp-auth__btn-close" @click="toDetailes(store.id)">
           <SvgX class="pp-auth__svg-cls" />
         </button>
-        <form action="" class="pp-auth__form form" @submit.prevent="" ref="form">
+        <form action="" class="pp-auth__form form" @submit.prevent="submitData()" ref="form">
           <h2 class="pp-auth__title">Контактные данные</h2>
-          <input type="text" class="pp-auth__input" placeholder="фамилия" >
-          <input type="text" class="pp-auth__input" placeholder="имя" >
-          <input type="text" class="pp-auth__input" placeholder="отчество" >
-          <input type="text" class="pp-auth__input" placeholder="электронная почта" >
-          <input type="text" class="pp-auth__input" placeholder="телефон" >
+          <input type="text" class="pp-auth__input" placeholder="фамилия" v-model.trim="form.name">
+          <input type="text" class="pp-auth__input" placeholder="имя" v-model.trim="form.surname">
+          <input type="text" class="pp-auth__input" placeholder="отчество" v-model.trim="form.patronymic">
+          <input type="text" class="pp-auth__input" placeholder="электронная почта" v-model.trim="form.email">
+          <input type="text" class="pp-auth__input" placeholder="телефон" v-model.trim="form.phone">
           <button type="submit" class="pp-auth__btn" >
             Отправить
           </button>
@@ -21,11 +21,50 @@
 </template>
 
 <script>
-import SvgX from '../components/svg/x.vue'
+import { useShowStore, useTicketStore } from '@/main';
+import axios from 'axios';
+import SvgX from '../components/svg/x.vue';
 
 export default{
     components:{
         SvgX
+    },
+    setup() {
+    return {
+      store: useTicketStore(),
+      store2:useShowStore(),
+    }
+  },
+    data(){
+      
+      return{
+        form:{
+          name:'',
+          surname:'',
+          patronymic:'',
+          email:'',
+          phone:'',
+          idticket:this.store.id
+        }
+      }
+    },
+    methods:{
+      submitData(){
+        axios.post('https://6618cd0b9a41b1b3dfbdf92d.mockapi.io/api/forms',this.form).then(
+            (res) => {
+                console.log(res)
+                this.toDetailes()
+                this.store2.show = true
+               
+                
+            }
+        )
+      },
+      toDetailes() {
+         
+            this.$router.push({ name: 'intoTicket', params:{id: this.store.id } })
+
+        }
     }
 }
 
