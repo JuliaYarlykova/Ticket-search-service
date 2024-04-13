@@ -5,9 +5,9 @@
             <FilterTransfer />
             <div class="page-main__wrap">
                 <Sort />
-            <CardField />
+                <CardField />
             </div>
-            
+
         </div>
     </main>
 
@@ -16,7 +16,6 @@
 <script>
 import CardField from '@/components/CardField.vue';
 import Sort from '@/components/Sort.vue';
-import axios from 'axios';
 import FilterTransfer from '../components/FilterTransfer.vue';
 
 export default {
@@ -25,7 +24,7 @@ export default {
         Sort,
         CardField
     }
-    
+
 }
 </script>
 
@@ -37,6 +36,7 @@ export default {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+
         @media @bw650 {
             flex-direction: column;
             justify-content: center;

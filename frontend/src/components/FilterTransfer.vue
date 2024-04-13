@@ -6,11 +6,12 @@
             </p>
             <div class="filter__check check" v-for="check in checks">
                 <label class=" check__label">
-                    <input type="checkbox" class="check__input" required @click="store.sort(check.key, $event.target)"/>
+                    <input type="checkbox" class="check__input" required
+                        @click="store.sort(check.key, $event.target)" />
                     <span class="check__mark"></span>
                     <p class="check__text">
                         {{ check.title }}
-                    </p> 
+                    </p>
                 </label>
             </div>
         </div>
@@ -25,25 +26,25 @@ export default {
     data() {
         return {
             checks: [
-            {
-                title:'Без пересадок',
-                key:0
-            },{
-                title:"1 пересадка",
-                key:1
-            },{
-                title: "2 пересадки",
-                key:2
-            },{
-                title:"3 пересадки",
-                key:3
-            }]
+                {
+                    title: 'Без пересадок',
+                    key: 0
+                }, {
+                    title: "1 пересадка",
+                    key: 1
+                }, {
+                    title: "2 пересадки",
+                    key: 2
+                }, {
+                    title: "3 пересадки",
+                    key: 3
+                }]
         }
 
     },
-    setup(){
-        return{
-            store:useTicketStore()
+    setup() {
+        return {
+            store: useTicketStore()
         }
     }
 }
@@ -54,10 +55,11 @@ export default {
     width: 100%;
     max-width: 300px;
     height: auto;
+
     @media @bw1340 {
         max-width: 250px;
     }
-    
+
 
     &__container {
         .container-part();
@@ -70,6 +72,7 @@ export default {
         line-height: 1.3;
         text-transform: uppercase;
         margin-bottom: 20px;
+
         @media @bw1340 {
             font-size: 14px;
         }
@@ -82,12 +85,12 @@ export default {
     border-color: @light_blue;
     margin-bottom: 20px;
 
-    &__label{
+    &__label {
         display: flex;
         flex-direction: row;
         gap: 10px;
         align-items: center
-        }
+    }
 
     &__input {
         .is-hidden();
@@ -126,11 +129,14 @@ export default {
         background-color: transparent;
         transition: background-color 0.2s;
         border-radius: 5px;
+        cursor: pointer;
 
     }
-    &__text{
+
+    &__text {
         font-size: 18px;
         font-weight: 300;
+
         @media @bw1340 {
             font-size: 14px;
         }

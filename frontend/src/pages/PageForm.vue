@@ -1,87 +1,97 @@
 <template>
-    <div class="pp-auth">
-      <div class="pp-auth__container">
-        <button class="pp-auth__btn-close" @click="toDetailes(store.id)">
-          <SvgX class="pp-auth__svg-cls" />
+  <div class="pp-auth">
+    <div class="pp-auth__container">
+      <button class="pp-auth__btn-close" @click="toDetailes(store.id)">
+        <SvgX class="pp-auth__svg-cls" />
+      </button>
+      <form action="" class="pp-auth__form form" @submit.prevent="submitData()" ref="form">
+        <h2 class="pp-auth__title">Контактные данные</h2>
+        <input type="text" class="pp-auth__input" placeholder="фамилия" v-model.trim="form.name">
+        <input type="text" class="pp-auth__input" placeholder="имя" v-model.trim="form.surname">
+        <input type="text" class="pp-auth__input" placeholder="отчество" v-model.trim="form.patronymic">
+        <input type="text" class="pp-auth__input" placeholder="электронная почта" v-model.trim="form.email">
+        <p class="pp-auth__mes" v-if="v$.form.email.$dirty && (v$.form.email.email)">Почта введена неверно!</p>
+        <input type="text" class="pp-auth__input" placeholder="телефон" v-model.trim="form.phone">
+        <button type="submit" class="pp-auth__btn">
+          Отправить
         </button>
-        <form action="" class="pp-auth__form form" @submit.prevent="submitData()" ref="form">
-          <h2 class="pp-auth__title">Контактные данные</h2>
-          <input type="text" class="pp-auth__input" placeholder="фамилия" v-model.trim="form.name">
-          <input type="text" class="pp-auth__input" placeholder="имя" v-model.trim="form.surname">
-          <input type="text" class="pp-auth__input" placeholder="отчество" v-model.trim="form.patronymic">
-          <input type="text" class="pp-auth__input" placeholder="электронная почта" v-model.trim="form.email">
-          <input type="text" class="pp-auth__input" placeholder="телефон" v-model.trim="form.phone">
-          <button type="submit" class="pp-auth__btn" >
-            Отправить
-          </button>
-        </form>
-      </div>
-
+        <p class="pp-auth__mes" v-if="v$.form.$dirty && (v$.form.$errors.length !== 0)">Не все поля заполнены!</p>
+      </form>
     </div>
+
+  </div>
 </template>
 
 <script>
 import { useShowStore, useTicketStore } from '@/main';
+import { useVuelidate } from '@vuelidate/core';
+import { email, required } from '@vuelidate/validators';
 import axios from 'axios';
 import SvgX from '../components/svg/x.vue';
 
-export default{
-    components:{
-        SvgX
-    },
-    setup() {
+export default {
+  components: {
+    SvgX
+  },
+  setup() {
     return {
       store: useTicketStore(),
-      store2:useShowStore(),
+      store2: useShowStore(),
+      v$: useVuelidate()
     }
   },
-    data(){
-      
-      return{
-        form:{
-          name:'',
-          surname:'',
-          patronymic:'',
-          email:'',
-          phone:'',
-          idticket:this.store.id
-        }
+  data() {
+
+    return {
+      form: {
+        name: '',
+        surname: '',
+        patronymic: '',
+        email: '',
+        phone: '',
+        idticket: this.store.id
       }
-    },
-    methods:{
-      submitData(){
-        axios.post('https://6618cd0b9a41b1b3dfbdf92d.mockapi.io/api/forms',this.form).then(
-            (res) => {
-                console.log(res)
-                this.toDetailes()
-                this.store2.show = true
-               
-                
-            }
-        )
-      },
-      toDetailes() {
-         
-            this.$router.push({ name: 'intoTicket', params:{id: this.store.id } })
+    }
+  },
+  methods: {
+    async submitData() {
+      const isFormCorrect = await this.v$.$validate()
+      if (!isFormCorrect) return
+      axios.post('https://6618cd0b9a41b1b3dfbdf92d.mockapi.io/api/forms', this.form).then(
+        (res) => {
+          console.log(res)
+          this.toDetailes()
+          this.store2.show = true
+
 
         }
+      )
+    },
+    toDetailes() {
+
+      this.$router.push({ name: 'intoTicket', params: { id: this.store.id } })
+
     }
+  },
+  validations() {
+    return {
+      form: {
+        name: { required },
+        surname: { required },
+        patronymic: { required },
+        email: { required, email },
+        phone: { required },
+      }
+
+
+    }
+  }
 }
 
 
 </script>
 
 <style lang="less">
-.modal-fade-enter,
-.modal-fade-leave-active {
-  opacity: 0;
-}
-
-.modal-fade-enter-active,
-.modal-fade-leave-active {
-  transition: opacity 1.5s ease
-}
-
 .pp-auth {
   box-sizing: border-box;
   position: fixed;
@@ -98,8 +108,14 @@ export default{
 
   overflow-y: auto;
   z-index: 110;
+
   @media @bw650 {
     padding: 90px 40px 50px;
+  }
+
+  &__mes {
+    color: red;
+    padding: 5px 0 5px;
   }
 
   &__container {
@@ -115,15 +131,12 @@ export default{
     background-position: 0 0;
     background-size: auto;
     background-repeat: repeat;
+
     @media @bw650 {
       padding: 70px 20px 40px;
     }
   }
 
-  &__error {
-    color: red;
-    margin-bottom: 55px;
-  }
 
   &__btn-close {
     display: flex;
@@ -156,7 +169,8 @@ export default{
     font-size: 16px;
     height: 55px;
     outline: none;
-    margin-bottom: 60px;
+    margin-top: 60px;
+
     @media @bw650 {
       margin-bottom: 20px;
     }
@@ -171,7 +185,7 @@ export default{
     font-size: 30px;
     font-weight: 500;
     color: @text_color;
-    margin-bottom: 85px;
+    margin-bottom: 45px;
   }
 
   &__btn {
@@ -182,20 +196,13 @@ export default{
     width: 226px;
     height: 52px;
     border-radius: 50px;
-  }
-
-  &__btn-bottom {
-    border: none;
-    width: 226px;
-    height: 30px;
-    color: @dark_blue;
     margin-top: 20px;
-  }
-}
+    transition: background-color 0.2s;
 
-.invalid {
-  margin-bottom: 5px;
-  border-top-color: red;
-  border-bottom-color: red;
+    &:hover {
+      background-color: @light_blue;
+    }
+  }
+
 }
 </style>

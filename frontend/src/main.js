@@ -15,7 +15,7 @@ export const useTicketStore = defineStore("ticket", {
     tickets: {},
     showTickets: {},
     sortTickets: [],
-    checks: [false, false, false,false],
+    checks: [false, false, false, false],
   }),
   actions: {
     sort(key, elem) {
@@ -48,9 +48,8 @@ export const useTicketStore = defineStore("ticket", {
         this.showTickets = this.tickets;
         return;
       }
-      
     },
-    sortCheap(){
+    sortCheap() {
       this.showTickets.sort(function (a, b) {
         if (+a.costs > +b.costs) {
           return 1;
@@ -61,10 +60,14 @@ export const useTicketStore = defineStore("ticket", {
         return 0;
       });
     },
-    sortFast(){
+    sortFast() {
       this.showTickets.sort(function (a, b) {
-        const a1 = +(a.waytime.split('T')[1].slice(0, -8).split(':')[0])*60 + +(a.waytime.split('T')[1].slice(0, -8).split(':')[1])
-        const b1 = +(b.waytime.split('T')[1].slice(0, -8).split(':')[0])*60 + +(b.waytime.split('T')[1].slice(0, -8).split(':')[1])
+        const a1 =
+          +a.waytime.split("T")[1].slice(0, -8).split(":")[0] * 60 +
+          +a.waytime.split("T")[1].slice(0, -8).split(":")[1];
+        const b1 =
+          +b.waytime.split("T")[1].slice(0, -8).split(":")[0] * 60 +
+          +b.waytime.split("T")[1].slice(0, -8).split(":")[1];
         if (a1 > b1) {
           return 1;
         }
@@ -73,7 +76,7 @@ export const useTicketStore = defineStore("ticket", {
         }
         return 0;
       });
-    }
+    },
   },
 });
 

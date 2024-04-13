@@ -2,7 +2,7 @@
     <div class="sort">
         <div class="sort__container">
             <label class="sort__label">
-                <input type="radio" class="sort__input" value="1" name="radio" @change="store.sortCheap()"/>
+                <input type="radio" class="sort__input" value="1" name="radio" @change="store.sortCheap()" />
                 <span class="sort__mark">самый дешевый</span>
             </label>
             <label class="sort__label">
@@ -14,11 +14,11 @@
 </template>
 
 <script>
-import {useTicketStore} from '@/main.js' 
+import { useTicketStore } from '@/main.js';
 
-export default{
-    setup(){
-        return{
+export default {
+    setup() {
+        return {
             store: useTicketStore()
         }
     }
@@ -28,12 +28,14 @@ export default{
 <style lang="less">
 .sort {
     margin-bottom: 50px;
+
     &__container {
         display: flex;
         flex-direction: row;
         width: 100%;
         max-width: 500px;
         margin-top: 15px;
+
         @media @bw1020 {
             max-width: 400px;
         }
@@ -41,7 +43,7 @@ export default{
 
     &__mark {
         height: 60px;
-       
+
         width: auto;
         padding: 15px 50px;
         background-color: @white;
@@ -54,16 +56,20 @@ export default{
         border-top-left-radius: 10px;
         border-bottom-left-radius: 10px;
         box-shadow: -1px 0px 10px 0px @gray_50;
+        cursor: pointer;
+
         @media @bw1020 {
             padding: 10px 25px;
-            font-size:14px;
+            font-size: 14px;
         }
+
         @media @bw650 {
             padding: 15px 27px;
         }
+
         @media @bw400 {
             padding: 15px 20px;
-            font-size:12px;
+            font-size: 12px;
         }
 
         &--r {
@@ -75,6 +81,7 @@ export default{
     }
 
     &__input {
+
         .is-hidden();
 
         &:checked {
